@@ -39,3 +39,5 @@ class GeneralizedJosephusTest(TestCase):
         self.assertEquals(j(6), 5)
         self.assertEquals(j(7), 7)
         self.assertEquals(j(8), 1)
+        for i in range(2,101):
+
