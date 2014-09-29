@@ -1,8 +1,10 @@
 __author__ = 'zephaniahgrunschlag'
 
 from unittest.case import TestCase
+from math import log2, floor
 
-from generalized_josephus import GeneralizedJosephusFactory
+from Chapter1.generalized_josephus import GeneralizedJosephusFactory
+
 
 class GeneralizedJosephusTest(TestCase):
 
@@ -39,5 +41,49 @@ class GeneralizedJosephusTest(TestCase):
         self.assertEquals(j(6), 5)
         self.assertEquals(j(7), 7)
         self.assertEquals(j(8), 1)
-        for i in range(2,101):
+        for n in range(1, 101):
+            self.assertEquals(j(2*n), 2*j(n)-1)
+            self.assertEquals(j(2*n+1), 2*j(n)+1)
 
+    def test_binary_josephus(self):
+        j = self.josephus.get_func()
+
+        #binary generalizes josephus:
+        bj0 = self.binary.get_func(alpha=1, beta=-1, gamma=1)
+        for n in range(1, 101):
+            self.assertEquals(j(n), bj0(n))
+
+        #special case: 2^m
+        bj1 = self.binary.get_func(alpha=1, beta=0, gamma=0)
+        mth_power = lambda x: 2 ** floor(log2(x))
+        for n in range(1, 101):
+            self.assertEquals(mth_power(n), bj1(n))
+
+        #special case: constant == 1
+        bj2 = self.binary.get_func(alpha=1, beta=-1, gamma=-1)
+        for n in range(1, 101):
+            self.assertEquals(1, bj2(n))
+
+        #special case: linear function f(n) = n
+        bj3 = self.binary.get_func(alpha=1, beta=0, gamma=1)
+        for n in range(1, 101):
+            self.assertEquals(n, bj3(n))
+
+        #general case: f(n) = alpha*A(n) + beta*B(n) + gamma*C(n) where A(), B(), C() defined below:
+        A = mth_power
+        C = lambda x: x - A(x)
+        B = lambda x: A(x) - C(x) - 1
+        alpha, beta, gamma = 4, -2, 1
+        f4 = lambda n: alpha * A(n) + beta * B(n) + gamma * C(n)
+        bj4 = self.binary.get_func(alpha=alpha, beta=beta, gamma=gamma)
+        for n in range(1, 101):
+            self.assertEquals(f4(n), bj4(n))
+
+        #recursive definition is satisfied:
+        self.assertEquals(bj4(1), alpha)
+        for n in range(1, 101):
+            self.assertEquals(bj4(2*n), 2*bj4(n)+beta)
+            self.assertEquals(bj4(2*n+1), 2*bj4(n)+gamma)
+
+    def test_genaralized_josephus(self):
+        self.fail("need to build this test")
