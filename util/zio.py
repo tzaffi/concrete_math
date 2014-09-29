@@ -1,5 +1,9 @@
 __author__ = 'zephaniahgrunschlag'
 
+"""
+Snagged from: http://stackoverflow.com/questions/4675728/redirect-stdout-to-a-file-in-python
+"""
+
 import sys
 
 
