@@ -17,7 +17,7 @@ class GeneralizedJosephusTest(TestCase):
         #These are well defined:
         self.assertIsNotNone(self.josephus.get_func())
         self.assertIsNotNone(self.binary.get_func(alpha=1, beta=-1, gamma=1))
-        self.assertIsNotNone(self.general.get_func(d=3, c=5, alpha_vector=(1, 2, 3)))
+        self.assertIsNotNone(self.general.get_func(d=3, c=5, alpha_vector=(1, 2), beta_vector=(1,2,3)))
 
         #These aren't:
         self.assertRaises(TypeError, self.josephus.get_func, "any argument at all should raise")
@@ -30,6 +30,7 @@ class GeneralizedJosephusTest(TestCase):
         self.assertRaises(TypeError, self.general.get_func, d=2, alpha_vector=(1, 2), alpha=5)
         self.assertRaises(TypeError, self.general.get_func, d=3, c=5, alpha_vector=5)
         self.assertRaises(TypeError, self.general.get_func, d=3, c=5, alpha_vector=(1, 2))
+        self.assertRaises(ValueError, self.general.get_func, d=3, c=5, alpha_vector=(1, 2, 3), beta_vector=(1, 2, 3))
 
     def test_standard_josephus(self):
         j = self.josephus.get_func()
@@ -85,5 +86,10 @@ class GeneralizedJosephusTest(TestCase):
             self.assertEquals(bj4(2*n), 2*bj4(n)+beta)
             self.assertEquals(bj4(2*n+1), 2*bj4(n)+gamma)
 
-    def test_genaralized_josephus(self):
-        self.fail("need to build this test")
+    def test_generalized_josephus(self):
+        alpha_vect = (34, 5)
+        beta_vect = (76, -2, 8)
+        d = 3
+        c = 10
+        f = self.general.get_func(d=d, c=c, alpha_vector=alpha_vect, beta_vector=beta_vect)
+        self.assertEquals(1258, f(19))
