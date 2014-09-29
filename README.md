@@ -1,9 +1,9 @@
 concrete_math
 =============
 
-# Explorations into the methods and exercises of "Concrete Mathematics: A Foundation for Computer Science" by Graham, Knuth and Patashnik
+## Explorations into the methods and exercises of "Concrete Mathematics: A Foundation for Computer Science" by Graham, Knuth and Patashnik
 
-## Chapter 1: Recurrent Problems
+### Chapter 1: Recurrent Problems
 
 I've implemented the following algorithms in the first chapter:
 
